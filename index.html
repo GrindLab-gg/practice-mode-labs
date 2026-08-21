@@ -1,0 +1,650 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Practice Mode Labs</title>
+<meta name="description" content="Practice Mode Labs is the parent company of Dynasty Central and ApexLens. We build the data layer for competitive gaming.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #08090A;
+  --bg2: #0E0F11;
+  --surface: #131416;
+  --border: rgba(255,255,255,.06);
+  --border-hover: rgba(255,255,255,.12);
+  --text: #F7F8F8;
+  --text2: #83878D;
+  --text3: #53555A;
+  --accent: #7AB8FF;
+  --accent2: #FF4D6A;
+  --font: 'Inter', sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+::selection { background: rgba(122,184,255,.2); }
+a { color: inherit; text-decoration: none; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+
+.container { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(8,9,10,.8);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 56px;
+  max-width: 1120px; margin: 0 auto; padding: 0 24px;
+}
+.nav-logo {
+  display: flex; align-items: center; gap: 10px;
+  font-weight: 600; font-size: 15px; letter-spacing: -.01em;
+}
+.nav-mark {
+  width: 22px; height: 22px;
+  border-radius: 6px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  display: grid; place-items: center;
+}
+.nav-mark::after {
+  content: '';
+  width: 8px; height: 8px;
+  background: var(--bg);
+  border-radius: 50%;
+}
+.nav-links { display: flex; align-items: center; gap: 28px; font-size: 14px; color: var(--text2); }
+.nav-links a { transition: color .15s; }
+.nav-links a:hover { color: var(--text); }
+.nav-cta {
+  padding: 6px 14px;
+  background: var(--text);
+  color: var(--bg) !important;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 13px;
+}
+.nav-cta:hover { background: #ddd !important; }
+@media (max-width: 640px) { .nav-links { gap: 20px; } .nav-cta { display: none; } }
+
+.hero {
+  position: relative;
+  padding: 100px 0 80px;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -300px; left: 50%; transform: translateX(-50%);
+  width: 900px; height: 700px;
+  background: radial-gradient(ellipse, rgba(122,184,255,.05), transparent 70%);
+  pointer-events: none;
+}
+.hero-inner { position: relative; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text2);
+  padding: 5px 14px;
+  border: 1px solid var(--border);
+  border-radius: 99px;
+  margin-bottom: 32px;
+}
+.hero-badge .dot {
+  width: 6px; height: 6px;
+  background: #35C77E;
+  border-radius: 50%;
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+@keyframes pulse-dot { 0%,100%{opacity:1} 50%{opacity:.4} }
+h1 {
+  font-size: clamp(38px, 6vw, 68px);
+  font-weight: 700;
+  letter-spacing: -.035em;
+  line-height: 1.05;
+  max-width: 760px;
+  margin-bottom: 24px;
+}
+h1 .muted { color: var(--text3); }
+.hero-sub {
+  font-size: 18px;
+  color: var(--text2);
+  max-width: 540px;
+  line-height: 1.7;
+  margin-bottom: 40px;
+}
+.hero-actions { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 64px; }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 14px; font-weight: 500;
+  transition: all .15s;
+  border: 1px solid transparent;
+}
+.btn-primary { background: var(--text); color: var(--bg); }
+.btn-primary:hover { background: #ddd; }
+.btn-secondary { border-color: var(--border); color: var(--text2); }
+.btn-secondary:hover { border-color: var(--border-hover); color: var(--text); }
+
+.hero-mock {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--surface);
+  box-shadow: 0 24px 80px rgba(0,0,0,.5);
+}
+.mock-bar {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+}
+.mock-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--text3); opacity: .3; }
+.mock-url {
+  margin-left: 12px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text3);
+  background: var(--bg2);
+  padding: 3px 10px;
+  border-radius: 5px;
+}
+.mock-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 280px;
+}
+.mock-left {
+  padding: 28px 24px;
+  border-right: 1px solid var(--border);
+  display: flex; flex-direction: column; justify-content: center;
+}
+.mock-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text3);
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  margin-bottom: 10px;
+}
+.mock-screenshot {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px;
+  margin-bottom: 16px;
+}
+.mock-screenshot .row {
+  height: 8px; border-radius: 3px;
+  background: var(--surface);
+  margin-bottom: 6px;
+}
+.mock-screenshot .row:last-child { margin-bottom: 0; }
+.mock-arrow {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text3);
+  margin-bottom: 16px;
+}
+.mock-data .field {
+  display: flex; align-items: center; gap: 10px;
+  font-family: var(--mono);
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+.mock-data .key { color: var(--text3); min-width: 70px; }
+.mock-data .val { color: var(--text); }
+.mock-data .val.ok { color: #35C77E; }
+.mock-right {
+  padding: 28px 24px;
+  display: flex; flex-direction: column; justify-content: center;
+}
+.mock-stat-row {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+.mock-stat-row:last-child { border-bottom: none; }
+.msr-label { color: var(--text2); }
+.msr-value { font-family: var(--mono); font-weight: 500; font-size: 14px; }
+.msr-value.good { color: #35C77E; }
+.msr-value.accent { color: var(--accent); }
+@media (max-width: 768px) { .mock-body { grid-template-columns: 1fr; } .mock-left { border-right: none; border-bottom: 1px solid var(--border); } }
+
+.stats-bar {
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 32px 0;
+}
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+.stat .s-val {
+  font-family: var(--mono);
+  font-size: 22px; font-weight: 500;
+  letter-spacing: -.02em;
+}
+.stat .s-label {
+  font-size: 12px;
+  color: var(--text3);
+  margin-top: 4px;
+}
+@media (max-width: 640px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
+
+section { padding: 96px 0; }
+.section-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .14em;
+  color: var(--text3);
+  margin-bottom: 12px;
+}
+h2 {
+  font-size: clamp(28px, 4vw, 40px);
+  font-weight: 700;
+  letter-spacing: -.025em;
+  line-height: 1.15;
+  margin-bottom: 12px;
+}
+.section-sub {
+  font-size: 16px;
+  color: var(--text2);
+  max-width: 520px;
+  line-height: 1.7;
+  margin-bottom: 48px;
+}
+
+.product-card {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 32px 28px;
+  transition: border-color .2s;
+  position: relative;
+  overflow: hidden;
+}
+.product-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 2px;
+  opacity: 0;
+  transition: opacity .2s;
+}
+.product-card:hover { border-color: var(--border-hover); }
+.product-card:hover::before { opacity: 1; }
+.pc-dc::before { background: linear-gradient(90deg, var(--accent), transparent); }
+.pc-al::before { background: linear-gradient(90deg, var(--accent2), transparent); }
+.product-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+@media (max-width: 768px) { .product-grid { grid-template-columns: 1fr; } }
+.pc-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 16px;
+}
+.pc-name {
+  font-size: 20px; font-weight: 700;
+  letter-spacing: -.02em;
+}
+.pc-owner {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text3);
+  letter-spacing: .06em;
+}
+.pc-status {
+  font-family: var(--mono);
+  font-size: 10px;
+  padding: 4px 10px;
+  border-radius: 99px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.pc-status.live { background: rgba(53,199,126,.1); color: #35C77E; }
+.pc-status.building { background: rgba(255,77,106,.1); color: var(--accent2); }
+.pc-desc {
+  font-size: 15px;
+  color: var(--text2);
+  line-height: 1.7;
+  margin-bottom: 24px;
+}
+.pc-metrics {
+  display: flex; gap: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+.pm .pm-v {
+  font-family: var(--mono);
+  font-size: 15px; font-weight: 500;
+}
+.pm .pm-l {
+  font-size: 11px;
+  color: var(--text3);
+  margin-top: 2px;
+}
+
+.thesis-block { max-width: 720px; }
+.thesis-statement {
+  font-size: clamp(24px, 3.5vw, 36px);
+  font-weight: 600;
+  letter-spacing: -.02em;
+  line-height: 1.3;
+  margin-bottom: 24px;
+}
+.thesis-statement .hl { color: var(--accent); }
+.thesis-support {
+  font-size: 16px;
+  color: var(--text2);
+  line-height: 1.75;
+}
+
+.exp-row {
+  display: flex; align-items: center;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 15px;
+  gap: 16px;
+}
+.exp-row:first-child { border-top: 1px solid var(--border); }
+.ex-game { font-weight: 600; min-width: 180px; }
+.ex-note { color: var(--text2); font-size: 14px; flex: 1; }
+.ex-status {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+.ex-status.shipped { color: #35C77E; }
+.ex-status.building { color: var(--accent2); }
+.ex-status.future { color: var(--text3); }
+@media (max-width: 640px) { .ex-note { display: none; } }
+
+.principles-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+@media (max-width: 768px) { .principles-grid { grid-template-columns: 1fr; } }
+.principle {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 28px 24px;
+}
+.principle h3 {
+  font-size: 16px; font-weight: 600;
+  margin-bottom: 8px;
+  letter-spacing: -.01em;
+}
+.principle p {
+  font-size: 14px;
+  color: var(--text2);
+  line-height: 1.65;
+}
+
+footer {
+  border-top: 1px solid var(--border);
+  padding: 40px 24px;
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 13px;
+  color: var(--text3);
+  flex-wrap: wrap;
+  gap: 12px;
+  max-width: 1120px; margin: 0 auto;
+}
+.footer-links { display: flex; gap: 20px; }
+.footer-links a:hover { color: var(--text2); }
+
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity .5s ease, transform .5s cubic-bezier(.2,0,0,1);
+}
+.reveal.in-view { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1; transform: none; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <span class="nav-mark"></span>
+      Practice Mode Labs
+    </a>
+    <div class="nav-links">
+      <a href="#products">Products</a>
+      <a href="#thesis">Thesis</a>
+      <a href="#expansion">Roadmap</a>
+      <a href="mailto:team@dynastycentral.gg" class="nav-cta">Get in touch</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="container hero-inner">
+    <div class="hero-badge">
+      <span class="dot"></span>
+      Dynasty Central &amp; ApexLens are Practice Mode Labs products
+    </div>
+    <h1>The data layer for<br>competitive <span class="muted">gaming.</span></h1>
+    <p class="hero-sub">
+      We build software that reads game screens so players don't have to type it. One extraction engine, one revenue-generating product, a second in development — all built on the same core technology.
+    </p>
+    <div class="hero-actions">
+      <a href="#products" class="btn btn-primary">See our products</a>
+      <a href="mailto:team@dynastycentral.gg" class="btn btn-secondary">Get in touch</a>
+    </div>
+    <div class="hero-mock reveal">
+      <div class="mock-bar">
+        <span class="mock-dot"></span>
+        <span class="mock-dot"></span>
+        <span class="mock-dot"></span>
+        <span class="mock-url">app.dynastycentral.gg/import</span>
+        <span style="margin-left:auto; font-family:var(--mono); font-size:10px; color:var(--text3);">DYNASTY CENTRAL · LIVE PRODUCT</span>
+      </div>
+      <div class="mock-body">
+        <div class="mock-left">
+          <div class="mock-label">Screenshot in</div>
+          <div class="mock-screenshot">
+            <div class="row"></div>
+            <div class="row short"></div>
+            <div class="row" style="width:80%"></div>
+            <div class="row short" style="width:40%"></div>
+          </div>
+          <div class="mock-arrow">↓ AI extraction</div>
+          <div class="mock-data">
+            <div class="field"><span class="key">player</span><span class="val">J. Carter</span></div>
+            <div class="field"><span class="key">position</span><span class="val">WR</span></div>
+            <div class="field"><span class="key">overall</span><span class="val">88</span></div>
+            <div class="field"><span class="key">status</span><span class="val ok">Committed</span></div>
+          </div>
+        </div>
+        <div class="mock-right">
+          <div class="mock-label">Dynasty overview</div>
+          <div class="mock-stat-row"><span class="msr-label">Season</span><span class="msr-value">2028 · Week 6</span></div>
+          <div class="mock-stat-row"><span class="msr-label">Record</span><span class="msr-value">5–1</span></div>
+          <div class="mock-stat-row"><span class="msr-label">Recruits committed</span><span class="msr-value accent">14</span></div>
+          <div class="mock-stat-row"><span class="msr-label">Import accuracy</span><span class="msr-value good">94.7%</span></div>
+          <div class="mock-stat-row"><span class="msr-label">Seasons tracked</span><span class="msr-value">3</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="stats-bar">
+  <div class="container stats-grid">
+    <div class="stat"><div class="s-val">81</div><div class="s-label">Active subscribers</div></div>
+    <div class="stat"><div class="s-val">$1,184</div><div class="s-label">MRR · Jul 2026</div></div>
+    <div class="stat"><div class="s-val">47×</div><div class="s-label">MRR growth · Mar→Jul</div></div>
+    <div class="stat"><div class="s-val">~95%</div><div class="s-label">Extraction accuracy</div></div>
+  </div>
+</div>
+
+<section id="products">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">Portfolio</div>
+      <h2>Two products. One engine.</h2>
+      <p class="section-sub">Wholly owned subsidiaries of Practice Mode Labs. Both run on the same capture pipeline — each targets a different game and a different player need.</p>
+    </div>
+    <div class="product-grid">
+      <div class="product-card pc-dc reveal">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <div class="pc-name">Dynasty Central</div>
+            <div class="pc-owner" style="margin-top:2px;">PML product line 01</div>
+          </div>
+          <span class="pc-status live">Live</span>
+        </div>
+        <p class="pc-desc" style="margin-top:16px;">
+          Companion platform for EA College Football dynasty players. Screenshot import, multi-season roster tracking, recruiting boards, and AI-generated coverage.
+        </p>
+        <div class="pc-metrics">
+          <div class="pm"><div class="pm-v">81</div><div class="pm-l">Active subs</div></div>
+          <div class="pm"><div class="pm-v">$1,184</div><div class="pm-l">MRR</div></div>
+          <div class="pm"><div class="pm-v">~95%</div><div class="pm-l">Import accuracy</div></div>
+        </div>
+      </div>
+      <div class="product-card pc-al reveal" style="transition-delay:.05s">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <div class="pc-name">ApexLens</div>
+            <div class="pc-owner" style="margin-top:2px;">PML product line 02</div>
+          </div>
+          <span class="pc-status building">In development</span>
+        </div>
+        <p class="pc-desc" style="margin-top:16px;">
+          Video and replay intelligence for competitive shooters, starting with Apex Legends. Built on the same capture pipeline, adapted for temporal analysis of gameplay footage.
+        </p>
+        <div class="pc-metrics">
+          <div class="pm"><div class="pm-v">2026</div><div class="pm-l">Target launch</div></div>
+          <div class="pm"><div class="pm-v">Apex Legends</div><div class="pm-l">First title</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="thesis">
+  <div class="container">
+    <div class="thesis-block reveal">
+      <div class="section-label">Thesis</div>
+      <p class="thesis-statement">
+        Competitive gaming data lives in Discord threads and spreadsheets today. We extract it, structure it, and <span class="hl">own the layer</span> every future product builds on.
+      </p>
+      <p class="thesis-support">
+        Dynasty Central proves willingness to pay: 81 subscribers at $1,184 MRR with ~95% extraction accuracy on real users. The pipeline behind it — AI-powered screenshot extraction — isn't game-specific. Every product we launch adds to a cross-title dataset that doesn't exist anywhere else. Consumer subscriptions fund the engine; over time, that dataset becomes licensable to teams, coaches, and platforms who need structured competitive gaming data they can't get anywhere else.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section id="expansion">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">Roadmap</div>
+      <h2>Where we're going.</h2>
+      <p class="section-sub">Every title on this list has power users already tracking data in Discord threads and spreadsheets. The question is whether our engine can read their screens faster than they can type.</p>
+    </div>
+    <div>
+      <div class="exp-row reveal">
+        <span class="ex-game">EA College Football</span>
+        <span class="ex-note">Screenshot import, dynasty tracking, AI coverage</span>
+        <span class="ex-status shipped">Shipped</span>
+      </div>
+      <div class="exp-row reveal" style="transition-delay:.05s">
+        <span class="ex-game">Apex Legends</span>
+        <span class="ex-note">Video &amp; replay analysis for competitive play</span>
+        <span class="ex-status building">Building</span>
+      </div>
+      <div class="exp-row reveal" style="transition-delay:.1s">
+        <span class="ex-game">Madden</span>
+        <span class="ex-note">Closest analog to existing pipeline</span>
+        <span class="ex-status future">Pipeline</span>
+      </div>
+      <div class="exp-row reveal" style="transition-delay:.15s">
+        <span class="ex-game">MLB The Show</span>
+        <span class="ex-note">Season-sim community with tracking habits</span>
+        <span class="ex-status future">Pipeline</span>
+      </div>
+      <div class="exp-row reveal" style="transition-delay:.2s">
+        <span class="ex-game">Rocket League</span>
+        <span class="ex-note">Coaching product — positioning breakdowns</span>
+        <span class="ex-status future">Coaching</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="principles">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">Principles</div>
+      <h2>How we build.</h2>
+    </div>
+    <div class="principles-grid">
+      <div class="principle reveal">
+        <h3>Import beats entry</h3>
+        <p>Every feature starts from the same question: can the machine read the screen so the player doesn't have to type it?</p>
+      </div>
+      <div class="principle reveal" style="transition-delay:.05s">
+        <h3>Persistence is the moat</h3>
+        <p>Game saves get deleted. Consoles fail. We hold the data across seasons so history outlives any single save file.</p>
+      </div>
+      <div class="principle reveal" style="transition-delay:.1s">
+        <h3>Niche but pays</h3>
+        <p>We don't chase the biggest player base. We chase the most invested one.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div>
+    <div style="font-weight:600; color:var(--text);">Practice Mode Labs LLC</div>
+    <div style="margin-top:2px;">© 2026 · North Carolina</div>
+  </div>
+  <div class="footer-links">
+    <a href="https://dynastycentral.gg">Dynasty Central</a>
+    <a href="mailto:team@dynastycentral.gg">Contact</a>
+  </div>
+</footer>
+
+<script>
+(function() {
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in-view'); });
+  }, { threshold: .1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+})();
+</script>
+
+</body>
+</html>
