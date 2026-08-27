@@ -81,7 +81,7 @@ export function Header() {
                 <a key={href} href={href} onClick={() => setOpen(false)}>{label}</a>
               ))}
               <a className="mobile-product-link" href="https://dynastycentral.gg" onClick={() => setOpen(false)}>
-                Explore Dynasty Central <ArrowUpRight size={15} />
+                Explore Dynasty Central <ArrowUpRight size={15} aria-hidden="true" />
               </a>
             </div>
           </motion.nav>
